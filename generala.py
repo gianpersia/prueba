@@ -39,6 +39,8 @@ def calcular_puntos(numero_lanzamiento, dados, juego):
         repetidos = calcular_repetidos(dados)
         if buscar_repetido(dados, repetidos, 5):
             puntos = 50
+            if numero_lanzamiento == 1:
+                puntos += 10
     elif juego == "poker":
         repetidos = calcular_repetidos(dados)
         if buscar_repetido(dados, repetidos, 4):
@@ -116,6 +118,7 @@ class Turno:
 class TablaPuntos:
     def __init__(self, cantidad_jugadores):
         self.cantidad_jugadores = cantidad_jugadores
+        self.g_servida = False
         self._tabla = [  # lista
             {  # diccionario
                 '1': None,
@@ -136,13 +139,15 @@ class TablaPuntos:
     @property
     def estado_tabla(self):
         for jugada in self._tabla[-1].values():
-            if jugada is None:
+            if jugada is None and not self.g_servida:
                 return False
         return True  # Significa que la tabla del ultimo jugador esta llena
 
     def anotar(self, jugador, jugada, numero_lanzamiento, dados):
         if self._tabla[jugador][jugada] is None:
             puntos = calcular_puntos(numero_lanzamiento, dados, jugada)
+            if puntos == 60:
+                self.g_servida = True
             self._tabla[jugador][jugada] = puntos
         else:
             raise TablaPuntosError('jugada ya anotado!')

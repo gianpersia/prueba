@@ -135,6 +135,12 @@ class CalcularPuntosTest(unittest.TestCase):
         numero_lanzamiento = 2
         puntos = calcular_puntos(numero_lanzamiento, dados, "generala")
         self.assertEqual(puntos, 50)
+    
+    def test_calcular_puntos_generala_puntos_60_servido(self):
+        dados = [6, 6, 6, 6, 6]
+        numero_lanzamiento = 1
+        puntos = calcular_puntos(numero_lanzamiento, dados, "generala")
+        self.assertEqual(puntos, 60)
 
     def test_calcular_puntos_generala_puntos_0(self):
         dados = [6, 6, 4, 6, 6]
